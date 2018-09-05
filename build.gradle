@@ -1,43 +1,37 @@
 buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE')
-    }
+	ext {
+		springBootVersion = '2.0.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
 }
 
 apply plugin: 'java'
+apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-bootJar {
-    baseName = 'neo4j-aggregator'
-    version =  '0.1.0'
-}
+group = 'org.phonetworks.neoj4.warmuproxy'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
 
 repositories {
-    jcenter()
+	mavenCentral()
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.14'
+	compile('org.springframework.boot:spring-boot-starter')
+	compile 'org.springframework.integration:spring-integration-ip'
+	// compile 'org.springframework.integration:spring-integration-test'
+	compile 'org.hibernate.validator:hibernate-validator'
 
-    // versions managed by io.spring.dependency-management
-    compile 'org.springframework.boot:spring-boot-starter'
-    compile 'org.springframework.boot:spring-boot-autoconfigure'
-    compile 'org.springframework.integration:spring-integration-ip'
-    compile 'org.springframework.integration:spring-integration-test'
+	compile 'org.neo4j.driver:neo4j-java-driver:1.4.4'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
 
-    compile 'commons-lang:commons-lang:2.6'
-    compile 'org.apache.logging.log4j:log4j-core:2.7'
-
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.hamcrest:hamcrest-all:1.3'
-    testCompile 'org.mockito:mockito-core:2.18.0'
-
-    testCompile 'org.springframework:spring-test'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

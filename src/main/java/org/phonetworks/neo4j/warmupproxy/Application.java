@@ -1,5 +1,8 @@
 package org.phonetworks.neo4j.warmupproxy;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.phonetworks.neo4j.warmupproxy.config.ServerConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -16,7 +19,8 @@ import org.springframework.integration.transformer.ObjectToStringTransformer;
 
 import org.springframework.messaging.MessageChannel;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 public class Application {
@@ -24,20 +28,21 @@ public class Application {
     private static final String SERVER_CHANNEL_NAME = "serverChannel";
     private static final String OUTPUT_CHANNEL_NAME = "inputChannel";
 
-    // TODO move to configuration
-    private static final int SERVER_PORT = 9999;
-    private static final boolean SERVER_SOCKET_KEEP_ALIVE = false;
-    private static final int SERVER_SOCKET_TIMEOUT = Math.toIntExact(TimeUnit.SECONDS.toMillis(5));
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
+    @Autowired
+    private ServerConfiguration appConfig;
+
+    @Autowired
+    private Aggregator aggregator;
+
     @Bean
     public AbstractConnectionFactory getConnectionFactory() {
-        TcpNetServerConnectionFactory factory = new TcpNetServerConnectionFactory(SERVER_PORT);
-        factory.setSoKeepAlive(SERVER_SOCKET_KEEP_ALIVE);
-        factory.setSoTimeout(SERVER_SOCKET_TIMEOUT);
+        TcpNetServerConnectionFactory factory = new TcpNetServerConnectionFactory(appConfig.getSocketPort());
+        factory.setSoKeepAlive(appConfig.isSocketKeepAlive());
+        factory.setSoTimeout(appConfig.getSocketTimeoutMillis());
         return factory;
     }
 
@@ -73,9 +78,15 @@ public class Application {
         return new ObjectToStringTransformer();
     }
 
-    // TODO move to separate file
     @ServiceActivator(inputChannel = SERVER_CHANNEL_NAME, outputChannel = OUTPUT_CHANNEL_NAME)
     public String service(String cypherQuery) {
-        return "RUN: " + cypherQuery;
+        try {
+            List<Map<String, Object>> result = aggregator.run(cypherQuery);
+
+            // TODO revisit serialization approach
+            return new ObjectMapper().writeValueAsString(result);
+        } catch (Exception e) {
+            return "{ \"error\": \"" + e.getMessage() + "\" }";
+        }
     }
 }

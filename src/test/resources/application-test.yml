@@ -1,0 +1,24 @@
+server:
+  socketPort: 6666
+  socketKeepAlive: true
+  socketTimeoutMillis: 10000
+
+bolt:
+  total-connection-limit: 17
+  connection-configs:
+    - uri: "bolt://neo4j:neo4jneo4j@localhost:7687"
+      encrypted: true
+      logLeakedSessions: false
+      maxIdleConnectionPoolSize: 10
+      idleTimeBeforeConnectionTest: 1
+      routingFailureLimit: 1
+      routingRetryDelayMillis: 5000
+      connectionTimeoutMillis: 5000
+    - uri: "bolt://neo4j:neo4jneo4j@localhost:7687"
+      encrypted: true
+      logLeakedSessions: false
+      maxIdleConnectionPoolSize: 10
+      idleTimeBeforeConnectionTest: 1
+      routingFailureLimit: 1
+      routingRetryDelayMillis: 5000
+      connectionTimeoutMillis: 5000
