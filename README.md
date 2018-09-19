@@ -1,4 +1,8 @@
-### Intro
+### Prerequisites
+
+ - [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+ - [Gradle](https://gradle.org/install/)
+ - IDE up to you but I recomend [IDEA](https://www.jetbrains.com/idea/download/)
 
 ### How to build & run
 
