@@ -7,7 +7,7 @@ bolt:
   total-connection-limit: 17
   connection-configs:
     - uri: "bolt://neo4j:neo4jneo4j@localhost:7687"
-      encrypted: true
+      encrypted: false
       logLeakedSessions: false
       maxIdleConnectionPoolSize: 10
       idleTimeBeforeConnectionTest: 1
@@ -16,7 +16,7 @@ bolt:
       connectionTimeoutMillis: 5000
     - uri: "bolt://neo4j:neo4jneo4j@localhost:7687"
       encrypted: true
-      logLeakedSessions: false
+      logLeakedSessions: true
       maxIdleConnectionPoolSize: 10
       idleTimeBeforeConnectionTest: 1
       routingFailureLimit: 1

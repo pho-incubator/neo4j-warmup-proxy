@@ -1,21 +1,30 @@
 package org.phonetworks.neo4j.warmupproxy.bolt;
 
+import org.neo4j.driver.internal.net.pooling.PoolSettings;
+import org.neo4j.driver.internal.retry.RetrySettings;
+import org.neo4j.driver.v1.Config;
+import org.springframework.lang.Nullable;
+
+import javax.validation.constraints.Null;
 import java.net.URI;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
+import static org.neo4j.driver.v1.Config.TrustStrategy.trustAllCertificates;
 
 /**
  * TODO watch for https://github.com/spring-projects/spring-boot/issues/8762 to remove setters later
  */
 public class BoltClientConfig {
-    private URI uri;
-    private boolean logLeakedSessions;
-    private boolean encrypted;
+    private URI uri = URI.create("bolt://neo4j:neo4j@localhost:7687");
+    private boolean logLeakedSessions = true;
+    private boolean encrypted = true;
 
-    private int maxIdleConnectionPoolSize;
-    private int idleTimeBeforeConnectionTest;
-    private int routingFailureLimit;
-    private int routingRetryDelayMillis;
-    private int connectionTimeoutMillis;
+    private int maxIdleConnectionPoolSize = PoolSettings.DEFAULT_MAX_IDLE_CONNECTION_POOL_SIZE;
+    private int idleTimeBeforeConnectionTest = PoolSettings.DEFAULT_IDLE_TIME_BEFORE_CONNECTION_TEST;
+    private int routingFailureLimit = 1;
+    private int routingRetryDelayMillis = (int) TimeUnit.SECONDS.toMillis( 5 );
+    private int connectionTimeoutMillis = (int) TimeUnit.SECONDS.toMillis( 5 );
 
     public URI getUri() {
         return uri;

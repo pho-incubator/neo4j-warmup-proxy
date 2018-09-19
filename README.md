@@ -22,6 +22,11 @@ Or change single property like port number
 
  - `java -jar build/libs/neoj4-warmup-proxy-0.0.1-SNAPSHOT.jar --server.socketPort=11111`
 
+### How to get code coverage
+
+ - run `./gradlew jacocoTestReport`
+ - open build/reports/coverage/index.html
+
 ### Spring experience
  - http://dimafeng.com/2015/08/29/spring-configuration_vs_component/
  - https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html

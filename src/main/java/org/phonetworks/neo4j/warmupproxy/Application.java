@@ -17,6 +17,7 @@ import org.springframework.integration.ip.tcp.connection.AbstractConnectionFacto
 import org.springframework.integration.ip.tcp.connection.TcpNetServerConnectionFactory;
 import org.springframework.integration.transformer.ObjectToStringTransformer;
 
+import org.springframework.lang.NonNull;
 import org.springframework.messaging.MessageChannel;
 
 import java.util.List;
@@ -33,16 +34,16 @@ public class Application {
     }
 
     @Autowired
-    private ServerConfiguration appConfig;
+    private ServerConfiguration config;
 
     @Autowired
     private Aggregator aggregator;
 
     @Bean
     public AbstractConnectionFactory getConnectionFactory() {
-        TcpNetServerConnectionFactory factory = new TcpNetServerConnectionFactory(appConfig.getSocketPort());
-        factory.setSoKeepAlive(appConfig.isSocketKeepAlive());
-        factory.setSoTimeout(appConfig.getSocketTimeoutMillis());
+        TcpNetServerConnectionFactory factory = new TcpNetServerConnectionFactory(config.getSocketPort());
+        factory.setSoKeepAlive(config.isSocketKeepAlive());
+        factory.setSoTimeout(config.getSocketTimeoutMillis());
         return factory;
     }
 
@@ -79,7 +80,7 @@ public class Application {
     }
 
     @ServiceActivator(inputChannel = SERVER_CHANNEL_NAME, outputChannel = OUTPUT_CHANNEL_NAME)
-    public String service(String cypherQuery) {
+    public String service(@NonNull String cypherQuery) {
         try {
             List<Map<String, Object>> result = aggregator.run(cypherQuery);
 
