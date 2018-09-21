@@ -27,9 +27,9 @@ public class BoltClientFactory extends BaseKeyedPooledObjectFactory<BoltClientCo
     }
 
     @Override
-    public void passivateObject(@NonNull BoltClientConfig key, @NonNull PooledObject<BoltClient> p) throws Exception {
+    public void destroyObject(BoltClientConfig key, PooledObject<BoltClient> p) throws Exception {
         p.getObject().disconnect();
 
-        super.passivateObject(key, p);
+        super.destroyObject(key, p);
     }
 }
