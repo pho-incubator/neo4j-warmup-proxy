@@ -35,7 +35,9 @@ public class AggregatorTest {
 
     @Before
     public void setUp() {
-        Mockito.when(boltConfigMock.getClientsLimit()).thenReturn(5);
+        Mockito.when(boltConfigMock.getTotalConnectionLimit()).thenReturn(5);
+        Mockito.when(boltConfigMock.getExecutionTimeoutMillis()).thenReturn(10000);
+        Mockito.when(boltConfigMock.getExecutorPoolSize()).thenReturn(5);
         aggregator = new Aggregator(boltConfigMock, factoryMock);
     }
 

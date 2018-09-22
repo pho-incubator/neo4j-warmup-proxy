@@ -9,6 +9,7 @@ import org.springframework.lang.NonNull;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * TODO watch for https://github.com/spring-projects/spring-boot/issues/8762 to remove setters later
@@ -18,7 +19,13 @@ import java.util.List;
 @ConfigurationProperties(prefix = "bolt")
 public class BoltConfiguration {
     @Min(1)
-    private int clientsLimit;
+    private int totalConnectionLimit = 15;
+
+    @Min(1)
+    private int executorPoolSize = 10;
+
+    private int executionTimeoutMillis = (int) TimeUnit.SECONDS.toMillis(10);
+
     private List<BoltClientConfig> connectionConfigs = new ArrayList<>();
 
     @NonNull
@@ -30,11 +37,27 @@ public class BoltConfiguration {
         this.connectionConfigs = connectionConfigs;
     }
 
-    public int getClientsLimit() {
-        return clientsLimit;
+    public int getTotalConnectionLimit() {
+        return totalConnectionLimit;
     }
 
-    public void setClientsLimit(int clientsLimit) {
-        this.clientsLimit = clientsLimit;
+    public void setTotalConnectionLimit(int totalConnectionLimit) {
+        this.totalConnectionLimit = totalConnectionLimit;
+    }
+
+    public int getExecutorPoolSize() {
+        return executorPoolSize;
+    }
+
+    public void setExecutorPoolSize(int executorPoolSize) {
+        this.executorPoolSize = executorPoolSize;
+    }
+
+    public int getExecutionTimeoutMillis() {
+        return executionTimeoutMillis;
+    }
+
+    public void setExecutionTimeoutMillis(int executionTimeoutMillis) {
+        this.executionTimeoutMillis = executionTimeoutMillis;
     }
 }

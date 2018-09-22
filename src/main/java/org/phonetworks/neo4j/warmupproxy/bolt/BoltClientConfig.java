@@ -116,4 +116,9 @@ public class BoltClientConfig {
                 routingRetryDelayMillis,
                 connectionTimeoutMillis);
     }
+
+    @Override
+    public String toString() {
+        return uri.toString();
+    }
 }
