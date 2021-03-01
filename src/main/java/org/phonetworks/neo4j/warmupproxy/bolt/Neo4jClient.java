@@ -38,7 +38,7 @@ public class Neo4jClient implements BoltClient {
         Session session = driver.session();
 
         StatementResult resultSet = session.beginTransaction().run(cypherQuery);
-        List<Map<String, Object>> result = resultSet.list(Record::asMap);
+        List<Map<String, Object>> result = resultSet.list(org.neo4j.driver.v1.Record::asMap);
 
         session.close();
 
