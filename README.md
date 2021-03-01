@@ -1,3 +1,5 @@
+[![test](https://github.com/pho-incubator/neo4j-warmup-proxy/actions/workflows/test.yml/badge.svg)](https://github.com/pho-incubator/neo4j-warmup-proxy/actions/workflows/test.yml)
+
 ### Prerequisites
 
  - [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
